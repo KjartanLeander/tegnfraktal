@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tegn fraktal</title>
+</head>
+<body>
+<canvas width="600" height="300"></canvas>
+<script>
+    let cx = document.querySelector("canvas").getContext("2d");
+
+    const colors = ["yellow", "red", "purple"];
+    let currentColorIndex = 0;
+
+    function getNextColor() {
+        const color = colors[currentColorIndex];
+        currentColorIndex = (currentColorIndex + 1) % colors.length;
+        return color;
+    }
+
+   /* function setColor(){
+        const color = getNextColor();
+        cx.fillStyle = color;
+    }
+
+    function randomColor() {
+        const yellow = Math.floor(Math.random()*240)
+        const red = Math.floor(Math.random() * 240);
+        const purple = Math.floor(Math.random() * 240);
+        return `rgb(${yellow},${red},${purple})`;
+    }*/
+
+    function branch(length, angle, scale){
+        debugger
+        // setColor();
+        // cx.fillStyle = randomColor()
+        cx.fillStyle = getNextColor();
+        cx.fillRect(0, 0, 2, length);
+        if (length < 8) return;
+        cx.save();
+        cx.translate(0, length);
+        cx.rotate(-angle);
+        branch(length * scale, angle, scale);
+        cx.rotate(2 * angle);
+        branch(length * scale, angle, scale);
+        cx.restore();
+    }
+
+    cx.translate(300, 0);
+    setInterval(function () {
+        cx.clearRect(0, 0, 600, 300);
+        branch(60, 0.5, 0.8);
+    }, 1000);
+
+</script>
+</body>
+</html>
